@@ -1,0 +1,87 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="SQLiteFunctionLibrary" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="Func_ExecuteQuery" Type="OutArgument(s:Func(x:String, s:String[], x:Boolean))" />
+    <x:Property Name="Func_SelectQuery" Type="OutArgument(s:Func(x:String, x:String, sd:DataTable))" />
+    <x:Property Name="Func_SaveDataTable" Type="OutArgument(s:Func(x:String, sd:DataTable, x:Boolean))" />
+    <x:Property Name="Func_AddColumns" Type="OutArgument(s:Func(x:String, x:String, x:String, x:String, x:Boolean))" />
+    <x:Property Name="Func_CreateDB" Type="OutArgument(s:Func(x:String, x:Boolean))" />
+    <x:Property Name="Func_NewTable" Type="OutArgument(s:Func(x:String, x:String, s:String[], s:String[], x:Boolean))" />
+  </x:Members>
+  <sap:VirtualizedContainerService.HintSize>1162,1201</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="32">
+      <x:String>System.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Data.SQLite</x:String>
+      <x:String>System.Data.SQLite.Generic</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="32">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.Data.SQLite</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.CV</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="* ExecuteQuery : DB 파일명, 테이블명, 쿼리 배열을 받아 처리&#xA;1. 파리미터&#xA;- DBFileName : String, Query Array  : String Array&#xA;2. 결과&#xA;- Boolean&#xA;* SaveDataTable : DB 파일명, 데이터테이블을 받아 입력 처리&#xA;       데이터테이블의 테이블명과 컬럼명을 이용하여 처리&#xA;1. 파라미터&#xA;- DBFileName : String, DataTable&#xA;2. 결과&#xA;- Boolean&#xA;* SelectQuery : DB 파일명, 쿼리 스트링을 받아 조회 처리&#xA;1. 파라미터&#xA;- DBFileName : String, Query : String -&gt; Select Query&#xA;2. 결과&#xA;- DataTable&#xA;* AddColumn : DB 파일명, 테이블명, 컬럼명, 컬럼타입을 받아 컬럼 추가 처리&#xA;1. 파라미터&#xA;- DBFileName : String, TableName : String&#xA;- FieldName : String, FieldType : String&#xA;2. 결과&#xA;- Boolean&#xA;" sap:VirtualizedContainerService.HintSize="376,1036" sap2010:WorkflowViewState.IdRef="Sequence_7">
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="ExecuteQuery = Function(db As String, querys() As String)&#xA;&#x9;Console.WriteLine(&quot;Start Execute Query Array&quot;)&#xA;&#x9;Dim connection As New SQLiteConnection(String.Format(&quot;Data Source={0};Version=3&quot;,db))&#xA;&#x9;connection.Open&#xA;&#x9;Try&#xA;&#x9;&#x9;Using transaction As SQLiteTransaction =connection.BeginTransaction&#xA;&#x9;&#x9;&#x9;For Each query As String In querys&#xA;&#x9;&#x9;&#x9;&#x9;Dim command As SQLiteCommand = connection.CreateCommand&#xA;&#x9;&#x9;&#x9;&#x9;command.CommandText = query&#xA;&#x9;&#x9;&#x9;&#x9;command.ExecuteNonQuery&#xA;&#x9;&#x9;&#x9;&#x9;Console.WriteLine(&quot;Execute :: &quot; + query)&#xA;&#x9;&#x9;&#x9;Next query&#xA;&#x9;&#x9;&#x9;transaction.Commit&#xA;&#x9;&#x9;End Using&#xA;&#x9;&#x9;connection.Close&#xA;&#x9;&#x9;Console.WriteLine(&quot;End Execute Query Array&quot;)&#xA;&#x9;&#x9;Return True&#xA;&#x9;Catch ex As Exception&#xA;&#x9;&#x9;connection.Close&#xA;&#x9;&#x9;Console.WriteLine(&quot;Exception :: &quot;+ex.Message)&#xA;&#x9;&#x9;Return False&#xA;&#x9;End Try&#xA;End Function&#xA;&#xA;SelectQuery = Function(db As String, query As String)&#xA;&#x9;Console.WriteLine(&quot;Start Select Query&quot;)&#xA;        Dim DT As New DataTable()&#xA;&#x9;&#x9;Dim connection As New SQLiteConnection(String.Format(&quot;Data Source={0};Version=3&quot;,db))&#xA;&#x9;&#x9;connection.Open&#xA;&#x9;&#x9;Try&#xA;&#x9;&#x9;&#x9;Dim command As SQLiteCommand = connection.CreateCommand&#xA;&#x9;&#x9;&#x9;command.CommandText = query&#xA;&#x9;        Dim adapter As New SQLiteDataAdapter(command)&#xA;&#x9;        adapter.AcceptChangesDuringFill = False&#xA;&#x9;        adapter.Fill(DT)&#xA;&#x9;        connection.Close()&#xA;&#x9;        'For Each row As DataRow In DT.Rows&#xA;&#x9;        '&#x9;row.AcceptChanges()&#xA;&#x9;&#x9;&#x9;'Next row&#xA;&#x9;&#x9;Catch ex As Exception&#xA;&#x9;&#x9;&#x9;Console.WriteLine(&quot;Exception :: &quot;+ex.Message)&#xA;&#x9;&#x9;&#x9;connection.Close&#xA;&#x9;&#x9;End Try&#xA;&#x9;&#x9;Console.WriteLine(&quot;End Select Query&quot;)&#xA;        Return DT&#xA;End Function&#xA;&#xA;SaveDataTable = Function(db As String, DT As DataTable)&#xA;&#x9;Console.WriteLine(&quot;Start Save DataTable&quot;)&#xA;&#x9;Dim query As String = &quot;INSERT INTO {0} values({1})&quot;&#xA;&#x9;&#xA;&#x9;Dim columns() As String = DT.Columns.Cast(Of DataColumn).Select(Function(c As DataColumn) c.ColumnName).ToArray&#xA;&#x9;Dim types() As String = DT.Columns.Cast(Of DataColumn).Select(Function(c As DataColumn) c.DataType.Name).&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Select(Function(t As String) If(t.ToUpper = &quot;STRING&quot; Or t.ToUpper = &quot;OBJECT&quot;,&quot;text&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;If( t.ToUpper = &quot;DOUBLE&quot; Or t.ToUpper = &quot;SINGLE&quot;,&quot;real&quot;, &quot;integer&quot;))).ToArray&#xA;&#x9;Dim connection As New SQLiteConnection(String.Format(&quot;Data Source={0};Version=3&quot;,db))&#xA;&#x9;connection.Open&#xA;&#x9;Try&#xA;&#x9;&#x9;Using transaction As SQLiteTransaction =connection.BeginTransaction&#xA;&#x9;&#x9;&#x9;Dim command As SQLiteCommand = connection.CreateCommand&#xA;&#x9;&#x9;&#x9;'Delete Data&#xA;&#x9;&#x9;&#x9;command.CommandText = String.Format(&quot;DELETE FROM {0}&quot;, DT.TableName)&#xA;&#x9;&#x9;&#x9;command.ExecuteNonQuery&#xA;&#x9;&#x9;&#x9;'Insert Data&#xA;  &#x9;&#x9;&#x9;command.CommandText = String.Format(query, DT.TableName, &quot;$&quot;+String.join(&quot;,$&quot;,columns))&#xA;&#x9;&#x9;&#x9;'Console.WriteLine(command.CommandText)&#xA;&#x9;&#x9;&#x9;'Parameter&#xA;&#x9;&#x9;&#x9;For Each col As String In columns&#xA;&#x9;&#x9;&#x9;&#x9;Dim parameter As SQLiteParameter = command.CreateParameter&#xA;&#x9;&#x9;&#x9;&#x9;parameter.ParameterName = &quot;$&quot;+col&#xA;&#x9;&#x9;&#x9;&#x9;command.Parameters.Add(parameter)&#xA;&#x9;&#x9;&#x9;&#x9;'Console.WriteLine(&quot;Parameter Name :: &quot; + parameter.ParameterName)&#xA;&#x9;&#x9;&#x9;Next col&#xA;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;Dim rowi As Int32&#xA;&#x9;&#x9;&#x9;For Each row As DataRow In DT.Rows&#xA;&#x9;&#x9;&#x9;&#x9;For rowi = 0 To row.ItemArray.Count - 1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;command.Parameters(rowi).Value = If(types(rowi) = &quot;text&quot;, row(rowi).ToString,row(rowi))&#xA;&#x9;&#x9;&#x9;&#x9;Next rowi&#xA;&#x9;&#x9;&#x9;&#x9;command.ExecuteNonQuery&#xA;&#x9;&#x9;&#x9;Next row&#xA;&#x9;&#x9;&#x9;transaction.Commit&#xA;&#x9;&#x9;End Using&#xA;&#x9;&#x9;connection.Close&#xA;&#x9;&#x9;Console.WriteLine(&quot;End Save DataTable&quot;)&#xA;&#x9;&#x9;Return True&#xA;&#x9;Catch ex As Exception&#xA;&#x9;&#x9;Console.WriteLine(&quot;Exception :: &quot;+ex.Message)&#xA;&#x9;&#x9;connection.Close&#xA;&#x9;&#x9;Return False&#xA;&#x9;End Try&#xA;End Function&#xA;&#xA;Dim SaveDataTableIntoDB As Func(Of String, DataTable, Boolean)= Function(db As String, DT As DataTable)&#xA;&#x9;Console.WriteLine(&quot;Start Save DataTable&quot;)&#xA;&#x9;Dim connection As New SQLiteConnection(String.Format(&quot;Data Source={0};Version=3&quot;,db))&#xA;&#x9;connection.Open&#xA;&#x9;Try&#xA;&#x9;&#x9;Dim command As SQLiteCommand = connection.CreateCommand&#xA;&#x9;&#x9;command.CommandText = String.Format(&quot;DELETE FROM {0}&quot;, DT.TableName)&#xA;&#x9;&#x9;command.ExecuteNonQuery&#xA;&#x9;&#x9;&#xA;        command = connection.CreateCommand&#xA;        command.CommandText = String.Format(&quot;SELECT * FROM {0}&quot;, DT.TableName)&#xA;        Dim adapter As New SQLiteDataAdapter(command)&#xA;        Dim builder As New SQLiteCommandBuilder(adapter)&#xA;        adapter.Update(DT)&#xA;        connection.Close&#xA;&#x9;&#x9;Console.WriteLine(&quot;End Save DataTable&quot;)&#xA;&#x9;&#x9;Return True&#xA;&#x9;Catch ex As Exception&#xA;&#x9;&#x9;connection.Close&#xA;&#x9;&#x9;Console.WriteLine(&quot;Exception :: &quot;+ex.Message)&#xA;&#x9;&#x9;Return False&#xA;&#x9;End Try&#xA;End Function" DisplayName="Invoke code" sap:VirtualizedContainerService.HintSize="334,164" sap2010:WorkflowViewState.IdRef="InvokeCode_5">
+      <ui:InvokeCode.Arguments>
+        <OutArgument x:TypeArguments="s:Func(x:String, s:String[], x:Boolean)" x:Key="ExecuteQuery">[Func_ExecuteQuery]</OutArgument>
+        <OutArgument x:TypeArguments="s:Func(x:String, sd:DataTable, x:Boolean)" x:Key="SaveDataTable">[Func_SaveDataTable]</OutArgument>
+        <OutArgument x:TypeArguments="s:Func(x:String, x:String, sd:DataTable)" x:Key="SelectQuery">[Func_SelectQuery]</OutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="AddColumn = Function(db As String, tableName As String, colName As String, colType As String)&#xA;&#x9;Console.WriteLine(&quot;Start Add Columns&quot;)&#xA;&#x9;Dim _type As String = If(colType.ToUpper = &quot;STRING&quot; Or colType.ToUpper = &quot;OBJECT&quot;,&quot;text&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;If( colType.ToUpper = &quot;DOUBLE&quot; Or colType.ToUpper = &quot;SINGLE&quot;,&quot;real&quot;, &quot;integer&quot;))&#xA;&#x9;Dim connection As New SQLiteConnection(String.Format(&quot;Data Source={0};Version=3&quot;,db))&#xA;&#x9;connection.Open&#xA;&#x9;Try&#xA;&#x9;&#x9;Dim command As SQLiteCommand = connection.CreateCommand&#xA;&#x9;&#x9;'Column Info : Column Name, Column Type&#xA;&#x9;&#x9;command.CommandText = String.Format(&quot;ALTER TABLE {0} ADD COLUMN {1} {2}&quot;,tableName,colName,_type)&#xA;&#x9;&#x9;Console.WriteLine(command.CommandText)&#xA;&#x9;&#x9;command.ExecuteNonQuery&#xA;&#x9;&#x9;connection.Close&#xA;&#x9;&#x9;Console.WriteLine(&quot;End Add Columns&quot;)&#xA;&#x9;&#x9;Return True&#xA;&#x9;Catch ex As Exception&#xA;&#x9;&#x9;connection.Close&#xA;&#x9;&#x9;Console.WriteLine(&quot;Exception :: &quot;+ex.Message)&#xA;&#x9;&#x9;Return False&#xA;&#x9;End Try&#xA;End Function&#xA;&#xA;" DisplayName="Invoke code" sap:VirtualizedContainerService.HintSize="334,164" sap2010:WorkflowViewState.IdRef="InvokeCode_6">
+      <ui:InvokeCode.Arguments>
+        <OutArgument x:TypeArguments="s:Func(x:String, x:String, x:String, x:String, x:Boolean)" x:Key="AddColumn">[Func_AddColumns]</OutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="CreateDb = Function(db As String)&#xD;&#xA;&#x9;Console.WriteLine(&quot;Start Create DB File&quot;)&#xD;&#xA;&#x9;Try&#xD;&#xA;&#x9;&#x9;SQLiteConnection.CreateFile(db)&#xD;&#xA;&#x9;&#x9;Console.WriteLine(&quot;End Create DB File&quot;)&#xD;&#xA;&#x9;&#x9;Return True&#xD;&#xA;&#x9;Catch ex As Exception&#xD;&#xA;&#x9;&#x9;Console.WriteLine(&quot;Exception :: &quot;+ex.Message)&#xD;&#xA;&#x9;&#x9;Return False&#xD;&#xA;&#x9;End Try&#xD;&#xA;End Function&#xD;&#xA;&#xD;&#xA;NewTable = Function(db As String, tableName As String, columns() As String, types() As String)&#xD;&#xA;&#x9;Console.WriteLine(&quot;Start New Table&quot;)&#xD;&#xA;&#x9;Dim _types() As String = types.Select(Function(t As String) If(t.ToUpper = &quot;STRING&quot; Or t.ToUpper = &quot;OBJECT&quot;,&quot;text&quot;,&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;If( t.ToUpper = &quot;DOUBLE&quot; Or t.ToUpper = &quot;SINGLE&quot;,&quot;real&quot;, &quot;integer&quot;))).ToArray&#xD;&#xA;&#x9;Dim query As String= String.Format(&quot;CREATE TABLE {0} ({1})&quot;,&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;tableName,&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;String.Join(&quot;,&quot;,columns.Zip(_types,Function(c As String,t As String) c+ &quot; &quot; + t))&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;)&#xD;&#xA;&#x9;Dim connection As New SQLiteConnection(String.Format(&quot;Data Source={0};Version=3&quot;,db))&#xD;&#xA;&#x9;connection.Open&#xD;&#xA;&#x9;Try&#xD;&#xA;&#x9;&#x9;Dim command As SQLiteCommand = connection.CreateCommand&#xD;&#xA;&#x9;&#x9;'Column Info : Column Name, Column Type&#xD;&#xA;&#x9;&#x9;command.CommandText = query&#xD;&#xA;&#x9;&#x9;Console.WriteLine(command.CommandText)&#xD;&#xA;&#x9;&#x9;command.ExecuteNonQuery&#xD;&#xA;&#x9;&#x9;connection.Close&#xD;&#xA;&#x9;&#x9;Console.WriteLine(&quot;End New Table&quot;)&#xD;&#xA;&#x9;&#x9;Return True&#xD;&#xA;&#x9;Catch ex As Exception&#xD;&#xA;&#x9;&#x9;connection.Close&#xD;&#xA;&#x9;&#x9;Console.WriteLine(&quot;Exception :: &quot;+ex.Message)&#xD;&#xA;&#x9;&#x9;Return False&#xD;&#xA;&#x9;End Try&#xD;&#xA;End Function" DisplayName="Invoke code" sap:VirtualizedContainerService.HintSize="334,164" sap2010:WorkflowViewState.IdRef="InvokeCode_7">
+      <ui:InvokeCode.Arguments>
+        <OutArgument x:TypeArguments="s:Func(x:String, x:Boolean)" x:Key="CreateDB">
+          <mva:VisualBasicReference x:TypeArguments="s:Func(x:String, x:Boolean)" ExpressionText="Func_CreateDB" />
+        </OutArgument>
+        <OutArgument x:TypeArguments="s:Func(x:String, x:String, s:String[], s:String[], x:Boolean)" x:Key="NewTable">
+          <mva:VisualBasicReference x:TypeArguments="s:Func(x:String, x:String, s:String[], s:String[], x:Boolean)" ExpressionText="Func_NewTable" />
+        </OutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+  </Sequence>
+</Activity>
